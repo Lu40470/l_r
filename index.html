@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7 Dias de Amor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+      color: #4d2c3d;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 2rem;
+    }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: #b76e79;
+    }
+    .countdown {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .btn-day {
+      background-color: #fff;
+      border: 2px solid #b76e79;
+      color: #b76e79;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-day:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-day:hover:not(:disabled) {
+      background-color: #b76e79;
+      color: #fff;
+    }
+    .btn-day .heart {
+      color: red;
+      animation: pulse 1.5s infinite;
+      margin-left: 8px;
+    }
+    .highlight {
+      box-shadow: 0 0 20px #ff4d6d;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+    .content {
+      display: none;
+      margin-top: 2rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .heart-fall {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 1.5rem;
+      animation: fall 6s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10%); }
+      100% { transform: translateY(110%); }
+    }
+    .music-btn {
+      margin-top: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>7 Dias de Amor, nosso primeiro dia dos namorados juntos</h1>
+    <p>Uma surpresa por dia até o Dia dos Namorados ❤</p>
+  </header>
+
+  <div class="countdown" id="countdown"></div>
+  <div class="buttons" id="buttonContainer"></div>
+  <div id="contentContainer"></div>
+  <div class="hearts" id="hearts"></div>
+  <button class="music-btn" onclick="toggleMusic()">🎵 Tocar/Pausar música</button>
+
+  <audio id="bgMusic" loop>
+    <source src="Além do Bem e do Mal.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const targetDate = new Date('2025-06-12T00:00:00');
+    const countdownEl = document.getElementById('countdown');
+    const buttonContainer = document.getElementById('buttonContainer');
+    const contentContainer = document.getElementById('contentContainer');
+    const hearts = document.getElementById('hearts');
+
+    const contents = [
+      "<div class='content' id='dia1'><h2>Dia 1 - Carta de Amor</h2><p>Estar com você tem sido um das coisas mais bonitas da minha vida. Cada pequeno gesto teu me mostra esse amor vale a pena. Gosto de nós dois da leveza que construímos, do carinho que trocamos, da conexão que só nós dois entende</p></div>",
+      "<div class='content' id='dia2'><h2>Dia 2 - Imagem Romântica</h2><img src='https://via.placeholder.com/300x200?text=Amor' alt='Imagem romântica'><p>Nosso amor em uma imagem.</p></div>",
+      "<div class='content' id='dia3'><h2>Dia 3 - Vídeo Especial</h2><iframe width='300' height='200' src='https://www.youtube.com/embed/VIDEO_ID' frameborder='0' allowfullscreen></iframe></div>",
+      "<div class='content' id='dia4'><h2>Dia 4 - Poema</h2><a href='https://www.canva.com/poema' target='_blank'>Leia o poema no Canva</a></div>",
+      "<div class='content' id='dia5'><h2>Dia 5 - Áudio</h2><audio controls><source src='https://drive.google.com/uc?export=download&id=AUDIO_ID' type='audio/mpeg'></audio></div>",
+      "<div class='content' id='dia6'><h2>Dia 6 - Enigma</h2><p>O que é invisível mas te faz sentir amado(a)?<br><button onclick=\"alert('Resposta: Amor!')\">Ver Resposta</button></p></div>",
+      "<div class='content' id='dia7'><h2>Dia 7 - Declaração</h2><p>Quer namorar comigo? 💖</p><div style='font-size:2rem;'>💗💗💗</div></div>"
+    ];
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      countdownEl.textContent = `Faltam ${days} dias, ${hours}h ${minutes}m ${seconds}s para o Dia dos Namorados!`;
+    }
+
+    function renderButtons() {
+      const today = new Date();
+      for (let i = 1; i <= 7; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'btn-day';
+        btn.innerHTML = `${i} <span class="heart">❤</span>`;
+        const btnDate = new Date(`2025-06-0${i + 4}`);
+        btn.disabled = today < btnDate;
+        if (btnDate.toDateString() === today.toDateString()) btn.classList.add('highlight');
+        btn.addEventListener('click', () => {
+          contentContainer.innerHTML = contents[i - 1];
+        });
+        buttonContainer.appendChild(btn);
+      }
+    }
+
+    function createHearts() {
+      for (let i = 0; i < 20; i++) {
+        const h = document.createElement('div');
+        h.className = 'heart-fall';
+        h.textContent = '❤';
+        h.style.left = Math.random() * 100 + '%';
+        h.style.animationDelay = Math.random() * 5 + 's';
+        hearts.appendChild(h);
+      }
+    }
+
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      if (music.paused) music.play();
+      else music.pause();
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+    renderButtons();
+    createHearts();
+  </script>
+</body>
+</html>
