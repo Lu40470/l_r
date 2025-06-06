@@ -137,16 +137,68 @@
   <div id="contents">
     <div id="dia1" class="content">💌 Carta de amor: "Estar com você tem sido um das coisas mais bonitas da minha vida. Cada pequeno gesto teu me mostra esse amor vale a pena. Gosto de nós dois da leveza que construímos, do carinho que trocamos, da conexão que só nós dois entende"</div>
     <div id="dia2" class="content">
-  🕰️ <strong>Linha do tempo do nosso amor</strong><br><br>
-  <ul>
-    <li><strong>🌟 Primeiro olhar:</strong> Aquele momento que eu percebi que tinha algo diferente em você.</li>
-    <li><strong>💬 Primeira conversa:</strong> Quando nossas palavras começaram a se conectar.</li>
-    <li><strong>😍 Primeiro "eu gosto de você":</strong> Coração acelerado, lembranças eternas.</li>
-    <li><strong>💏 Primeiro beijo:</strong> O início do nosso universo particular.</li>
-    <li><strong>🎉 Primeira comemoração juntos:</strong> Um dia que virou tradição.</li>
-    <li><strong>💘 Hoje:</strong> Estamos aqui, construindo um amor que só cresce.</li>
-  </ul>
-  <p style="margin-top: 10px;">Cada passo que demos me mostra que tudo valeu a pena. Amo viver essa história com você. ❤️</p>
+  <h2>🧠 Quiz do Amor</h2>
+  <p>Vamos ver se você lembra dos nossos momentinhos? 💘</p>
+  <form id="quizForm">
+    <div>
+      <p>1. Onde foi nosso primeiro beijo?</p>
+      <label><input type="radio" name="q1" value="b"> No carro</label><br>
+      <label><input type="radio" name="q1" value="a"> Na praia</label><br>
+      <label><input type="radio" name="q1" value="c"> Em casa</label><br>
+      <label><input type="radio" name="q1" value="d"> Em frente ao açude</label>
+    </div>
+    <div>
+      <p>2. Qual foi o primeiro filme que assistimos juntos?</p>
+      <label><input type="radio" name="q2" value="b"> Homem-Aranha</label><br>
+      <label><input type="radio" name="q2" value="a"> A Culpa é das Estrelas</label><br>
+      <label><input type="radio" name="q2" value="c"> Nora</label><br>
+      <label><input type="radio" name="q2" value="d"> Não lembro 😅</label>
+    </div>
+    <div>
+      <p>3. Qual comida virou "a nossa comida"?</p>
+      <label><input type="radio" name="q3" value="a"> Pizza</label><br>
+      <label><input type="radio" name="q3" value="b"> Sushi</label><br>
+      <label><input type="radio" name="q3" value="c"> Hambúrguer</label><br>
+      <label><input type="radio" name="q3" value="d"> Massa</label>
+    </div>
+    <div>
+      <p>4. Qual foi a data do nosso primeiro encontro?</p>
+      <label><input type="radio" name="q4" value="a"> 12/04</label><br>
+      <label><input type="radio" name="q4" value="b"> 05/03</label><br>
+      <label><input type="radio" name="q4" value="c"> 20/01</label><br>
+      <label><input type="radio" name="q4" value="d"> 01/04</label>
+    </div>
+    <br>
+    <button type="submit">Ver resultado 💖</button>
+  </form>
+  <div id="quizResult" style="margin-top:20px; font-weight:bold;"></div>
+
+  <script>
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const respostas = {
+        q1: "b",
+        q2: "c",
+        q3: "a",
+        q4: "a"
+      };
+
+      let score = 0;
+      for (let i = 1; i <= 4; i++) {
+        const resposta = document.querySelector(`input[name="q${i}"]:checked`);
+        if (resposta && resposta.value === respostas[`q${i}`]) {
+          score++;
+        }
+      }
+
+      const resultText = `Você acertou ${score} de 4 perguntas! ${
+        score === 4 ? "Uau, você lembra de tudo! 💘" : "Mas o mais importante é que vivemos tudo isso juntos. ❤️"
+      }`;
+
+      document.getElementById("quizResult").textContent = resultText;
+    });
+  </script>
 </div>
     <div id="dia3" class="content">🎥 <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe></div>
     <div id="dia4" class="content">📖 <a href="https://www.canva.com/poema-romantico" target="_blank">Clique aqui para ler um poema especial.</a></div>
